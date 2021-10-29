@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WasteProject.Data.Entities.UserGifts>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Kullanıcılara Tanımlı Hediyeler</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Hediye Tanımla</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Kullanıcı Adı
+            </th>
+            <th>
+                Hediye Adı
+            </th>
+            <th>
+                Puanı
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gift.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gift.Point)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,96 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atık Projesi - Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Atık Projesi | </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"> </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <form method="post" id="loginForm">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4">
+                            <h4>Giriş Yapınız</h4>
+                            <hr />
+
+                            <div class="form-group">
+                                <label class="control-label">Mail</label>
+                                <input class="form-control" type="email" name="EMail"
+                                       placeholder="E-Posta Giriniz" value="admin@test.com" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Şifre</label>
+                                <input class="form-control" type="password" name="Password"
+                                       placeholder="Şifrenizi Giriniz" value="123456" required />
+                            </div>
+                            <button type="submit" class="btn form-control btn-primary">Giriş</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </main>
+    </div>
+
+
+
+    <script>
+        $(document).on('submit', '#loginForm', function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'Login/LoginC',
+                data: $(this).serialize(),
+                error: function (xhr) {
+                    alert(xhr);
+                },
+                success: function (response) {
+                    if (response == "Ok") {
+                        window.location.replace("/Home");
+                    } else {
+                        alert(response);
+                    }
+                }
+            });
+        })
+    </script>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - Atık Projesi - Created by Eda
+        </div>
+    </footer>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+</body>
+</html>
+
+
+
+
+
+
+

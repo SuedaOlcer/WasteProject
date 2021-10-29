@@ -1,0 +1,41 @@
+﻿@model IEnumerable<WasteProject.Data.Entities.WasteTypes>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Atık Türleri</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Oluştur</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Tür
+            </th>
+            <th>
+                Puan(Kg Başı)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Point)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Düzenle</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

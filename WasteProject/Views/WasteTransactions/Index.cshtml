@@ -1,0 +1,49 @@
+﻿@model IEnumerable<WasteProject.Data.Entities.WasteTransaction>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Teslim Alınan Atıklar</h1>
+<hr />
+<p>
+    <a asp-action="Create" class="btn btn-success">Atık Teslimatı Gerçekletir</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Kullanıcı Adı
+            </th>
+            <th>
+                Atık Türü
+            </th>
+            <th>
+                Atık Miktarı(Kg)
+            </th>
+            <th>
+                Puan Karşılığı
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.User.Name
+                </td>
+                <td>
+                    @item.Waste.Name
+                </td>
+                <td>
+                    @item.WasteAmount   
+                </td>
+                <td>
+                    @item.Point
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WasteProject.Models.UserWithPoint>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Kullanıcı Puanları</h1>
+
+ 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Kullanıcı
+            </th>
+            <th>
+                Puanı
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Point
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

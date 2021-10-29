@@ -1,0 +1,112 @@
+﻿@model WasteProject.Data.Entities.WasteTransaction
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<br />
+<h4>Atık Teslim Alma Ekranı</h4>
+<hr />
+<form asp-action="Create">
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="Tc" id="Tc" placeholder="Müşteri Tc si" />
+                <div class="input-group-append">
+                    <button class="btn btn-success" type="button" id="confirmTc">Tc'yi Onayla</button>
+                </div>
+                <span class="text-danger" id="Tc"></span>
+
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">Kullanıcı Adı</label>
+                <select class="form-control" asp-for="UserId">
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WasteId" class="control-label">Atık Türü</label>
+                <select asp-for="WasteId" class="form-control">
+                    <option value="">Atık Türü Seçiniz</option>
+                    @foreach (var item in ViewBag.Waste)
+                    {
+                        <option value="@item.Id" point="@item.Point">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="WasteId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="WasteAmount" class="control-label"> Atık Miktarı(kg)</label>
+                <input asp-for="WasteAmount" class="form-control" type="number" />
+                <span asp-validation-for="WasteAmount" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Point" class="control-label">Kazanacağı Puan</label>
+                <input asp-for="Point" class="form-control" type="number" readonly />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="İşlemi Onayla" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label class="control-label user-detail">Kullanıcı Adı : <span id="userName"></span></label>
+            <label class="control-label user-detail">Telefon : <span id="userPhone"></span></label>
+            <label class="control-label user-detail">Mail : <span id="userMail"></span></label>
+            <label class="control-label user-detail">Adres : <span id="userAdress"></span></label>
+            <label class="control-label user-detail">CardNo : <span id="userCardNo"></span></label>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Atık Teslim Listesine Dön</a>
+</div>
+
+<script>
+    $(document).on('click', '#confirmTc', function () {
+
+        var tcNo = $('#Tc').val();
+        if (tcNo.length == 11) {
+            $.ajax({
+                type: 'POST',
+                url: '/Users/GetUserFromTc',
+                data: { TcNo: tcNo },
+                error: function (xhr) {
+                    alert(xhr);
+                },
+                success: function (response) {
+                    if (typeof response != "undefined") {
+                        $('#userName').text(response.name);
+                        $('#userPhone').text(response.phone);
+                        $('#userMail').text(response.email);
+                        $('#userAdress').text(response.adress);
+                        $('#userCardNo').text(response.cardNo);
+                        var userId = "<option value="+response.id+" selected>"+response.name+"</option>";
+                        $('#UserId').html(userId);
+                    } else {
+                        alert("Bu Tc No'ya Ait Bir Kullanıcı Kaydı Bulunmamakta");
+                    }
+                }
+            });
+        } else {
+            alert("Tc 11 Karakterden Oluşmalıdır");
+        }
+    });
+    $(document).on('keyup', '#WasteAmount', function(){
+        var point = $('#WasteId option:selected').attr('point');
+        var sum = $('#WasteAmount').val() * point;
+        $('#Point').val(sum);
+    })
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

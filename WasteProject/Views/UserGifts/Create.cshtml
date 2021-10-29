@@ -1,0 +1,48 @@
+﻿@model WasteProject.Data.Entities.UserGifts
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Kullanıcıya Hediye Tanımla</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">Kullanıcı</label>
+                <select asp-for="UserId" class="form-control">
+                    @foreach (var item in ViewBag.UserPoint)
+                    {
+                        <option value="@item.UserId">@item.Name -- (Puanı : @item.Point)</option>
+                    }
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="GiftId" class="control-label">Hediye</label>
+                <select asp-for="GiftId" class="form-control">
+                    @foreach (var item in ViewBag.Gifts)
+                    {
+                        <option value="@item.Id">@item.Name -- (Gerekli Puan : @item.Point)</option>
+                    }
+                </select>
+                <span asp-validation-for="GiftId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Onayla" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Kullanıcı Hediyeleri Listesine Dön</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
